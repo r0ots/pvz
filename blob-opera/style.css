@@ -1,0 +1,220 @@
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Root ──────────────────────────────────────────────────────────────── */
+:root {
+  --font: system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --bass-color:    #5B8CFF;
+  --tenor-color:   #4ECDC4;
+  --mezzo-color:   #FFD166;
+  --soprano-color: #FF6B9D;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App container ─────────────────────────────────────────────────────── */
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ── Webcam (mirrored so it looks like a selfie camera) ────────────────── */
+#webcam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);   /* mirror */
+}
+
+/* ── Skeleton canvas (full-screen, drawn in JS, NOT CSS-mirrored) ──────── */
+#overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── UI layer (on top of everything) ──────────────────────────────────── */
+#ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Start screen ──────────────────────────────────────────────────────── */
+#start-screen {
+  background: rgba(0, 0, 0, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 40px 44px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+#start-screen h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  opacity: 0.55;
+  margin-bottom: 28px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Instructions grid ─────────────────────────────────────────────────── */
+.instructions {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.instr-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+.instr-icon {
+  font-size: 1.3rem;
+  width: 1.8rem;
+  text-align: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Start button ──────────────────────────────────────────────────────── */
+#start-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 13px 38px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  margin-bottom: 20px;
+}
+
+#start-btn:hover  { opacity: 0.88; }
+#start-btn:active { transform: scale(0.97); }
+#start-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+
+/* ── Server hint ────────────────────────────────────────────────────────── */
+.serve-note {
+  font-size: 0.72rem;
+  opacity: 0.35;
+  line-height: 1.6;
+}
+
+.serve-note code {
+  font-family: 'Menlo', 'Consolas', monospace;
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* ── HUD ───────────────────────────────────────────────────────────────── */
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#hud.hidden { display: none; }
+
+/* ── Status bar ────────────────────────────────────────────────────────── */
+#status-bar {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.50);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 5px 16px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  opacity: 0.80;
+}
+
+/* ── Singer label row (bottom of screen) ──────────────────────────────── */
+#singer-labels {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 5%;
+}
+
+.singer-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.singer-label.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.singer-label .voice-name {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.65;
+}
+
+.singer-label .note-name {
+  font-size: 1.35rem;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.singer-label .vowel-name {
+  font-size: 0.72rem;
+  font-style: italic;
+  opacity: 0.7;
+}
