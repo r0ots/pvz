@@ -179,7 +179,7 @@ class App {
     });
 
     // Status: show how many singers are active
-    const activeCount = voiceParams.filter(p => p.active).length;
+    const activeCount = enriched.filter(p => p.active).length;
     if (activeCount === 0) {
       this._setStatus('Step into frame to sing!');
     } else {
