@@ -59,6 +59,13 @@ class App {
   async _setupWebcam() {
     this._setStatus('Requesting camera…');
 
+    if (!navigator.mediaDevices?.getUserMedia) {
+      throw new Error(
+        'Camera API not available. Make sure you are visiting ' +
+        'http://localhost:8080 (not 127.0.0.1) and using Chrome or Firefox.'
+      );
+    }
+
     const stream = await navigator.mediaDevices.getUserMedia({
       video: {
         width:  { ideal: 1280 },
