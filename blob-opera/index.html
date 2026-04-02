@@ -72,9 +72,8 @@
 </div><!-- #app -->
 
 <!-- ── TensorFlow.js CDN ──────────────────────────────────────────────────── -->
-<!-- Core + WebGL backend (fastest in-browser inference) -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.20.0/dist/tf-core.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.20.0/dist/tf-backend-webgl.min.js"></script>
+<!-- Full bundle: includes core, WebGL backend, AND converter (needed for loadGraphModel) -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
 <!-- MoveNet MultiPose model -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
 
